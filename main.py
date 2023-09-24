@@ -1,12 +1,15 @@
 import tkinter
 from tkinter import font
-from deep_translator import GoogleTranslator
+from deep_translator import DeeplTranslator,GoogleTranslator
                         
 
 def translate_():
     is_translated.delete("1.0","end")
     input = to_translate.get("1.0",tkinter.END)
-    translator = GoogleTranslator(source='auto', target=selected.get())
+    if selected_trans.get() == "Google Translator": 
+        translator =  GoogleTranslator(source='auto', target=selected_lang.get())
+    elif selected_trans.get() == "DeepL (api_key required)":
+        translator = DeeplTranslator(source='auto', target=selected_lang.get(), api_key=api_key_input.get())
     inside_quotes = False
     current_part = ""
     input_list = []
@@ -58,6 +61,7 @@ def translate_():
                 is_translated.insert(tkinter.END,translated_string)
 
 
+
 mw=tkinter.Tk()
 mw.title("Translator for Languages file")
 mw.geometry("750x480")
@@ -95,20 +99,42 @@ scrollbar1.config(command=is_translated.yview)
 label2 = tkinter.Label(mw,text="Selected Language: " ,font=label_font,bg="#303030",fg="#DCDCDC")
 label2.place(x=150,y=270)
 
+label3 = tkinter.Label(mw,text="Selected Translator: " ,font=label_font,bg="#303030",fg="#DCDCDC")
+label3.place(x=150,y=300)
+
+label4 = tkinter.Label(mw,text="Api key: " ,font=label_font,bg="#303030",fg="#DCDCDC")
+label4.place(x=150,y=330)
+
+
 
 
 languages = GoogleTranslator().get_supported_languages()
 
-selected = tkinter.StringVar()
-  
-selected.set( "nothing" )
 
 
-drop = tkinter.OptionMenu(mw,selected,*languages)
-drop.place(x=350,y=270,width=100,height=25,bordermode="ignore")
+list_of_translators = [
+    "Google Translator",
+    "DeepL (api_key required)"
+]
+
+selected_lang = tkinter.StringVar()
+selected_lang.set( "nothing" )
+
+selected_trans = tkinter.StringVar()
+selected_trans.set( "nothing" )
+
+
+api_key_input = tkinter.Entry(mw,font=text_font,bg="#303030",fg="#DCDCDC")
+api_key_input.place(x=350,y=330,width=250,height=25,bordermode="ignore")
+
+drop = tkinter.OptionMenu(mw,selected_lang,*languages)
+drop.place(x=350,y=270,width=250,height=25,bordermode="ignore")
+
+drop1 = tkinter.OptionMenu(mw,selected_trans,*list_of_translators)
+drop1.place(x=350,y=300,width=250,height=25,bordermode="ignore")
 
 button = tkinter.Button(mw, text='Translate', width=15, command=translate_)
-button.place(x=300, y=350)
+button.place(x=300, y=450)
 
 
 
