@@ -12,3 +12,4 @@ output for the examples:
 Known bugs: 
   useless white space in the translation.
   
+![image](https://github.com/Paizee/language_file_translator/assets/99689902/43befd75-2ce1-446e-8844-2b86eaa3178f)
